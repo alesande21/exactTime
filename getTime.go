@@ -1,5 +1,5 @@
 package exactTime
 
-func getTime() string {
+func GetTime() string {
 	return "Точное время"
 }
