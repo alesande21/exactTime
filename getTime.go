@@ -1,14 +1,33 @@
 package exactTime
 
 import (
+	"fmt"
 	"github.com/beevik/ntp"
 	_ "github.com/beevik/ntp"
+	"os"
+	"time"
 )
 
-func GetTime() (string, error) {
-	time, err := ntp.Time("0.beevik-ntp.pool.ntp.org")
-	if err != nil {
-		return "", err
+var host string = "0.beevik-ntp.pool.ntp.org"
+
+func GetTime(params ...string) {
+	if len(params) != 0 {
 	}
-	return time.String(), nil
+	ntpTime, err := ntp.Time(host)
+	if err != nil {
+		strErr := fmt.Sprintf("Ошибка получения времени: %s", err)
+		fmt.Fprint(os.Stderr, strErr)
+		os.Exit(-1)
+		return
+	}
+
+	ntpTimeFormatted := ntpTime.Format(time.UnixDate)
+	fmt.Printf("Network time: %v\n", ntpTime)
+	fmt.Printf("Unix Date Network time: %v\n", ntpTimeFormatted)
+	fmt.Println("#########################")
+	timeFormatted := time.Now().Local().Format(time.UnixDate)
+	fmt.Printf("System time: %v\n", time.Now())
+	fmt.Printf("Unix Date System time: %v\n", timeFormatted)
+
+	os.Exit(0)
 }
