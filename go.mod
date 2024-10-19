@@ -1,4 +1,4 @@
-module github.com/alesande21/exactTime
+module github.com/alesande21/exactTime/v2
 
 go 1.22.0
 
